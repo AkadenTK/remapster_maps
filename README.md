@@ -13,80 +13,10 @@ We're working on more map compositions such as gathering, treasures, battle cont
 ## Changes
 
 ### Released Map Pack 1!
-| Zone |
-| :---: |
-| Pso'Xja |
-| Tavnazian Safehold |
-| Dynamis - Valkurm |
-| Dynamis - Buburimu |
-| Dynamis - Qufim |
-| Dynamis - Tavnazia |
-| Al Zahbi |
-| Aht Urhgan Whitegate |
-| Nashmau |
-| Nyzul Isle |
-| Southern San d'Oria [S] |
-| Batallia Downs [S] |
-| Bastok Markets [S] |
-| Rolanberry Fields [S] |
-| La Theine Plateau |
-| Valkurm Dunes |
-| Konschtat Highlands |
-| Rolanberry Fields |
-| Tahrongi Canyon |
-| Sauromugue Champaign |
-| Qufim Island |
-| Dynamis - Beaucedine |
-| Dynamis - Xarcabard |
-| Middle Delkfutt's Tower |
-| Upper Delkfutt's Tower |
-| Walk of Echoes |
-| Lower Delkfutt's Tower |
-| Dynamis - San d'Oria |
-| Dynamis - Bastok |
-| Dynamis - Windurst |
-| Dynamis - Jeuno |
-| Southern San d'Oria |
-| Northern San d'Oria |
-| Port San d'Oria |
-| Chateau d'Oraguille |
-| Bastok Mines |
-| Bastok Markets |
-| Port Bastok |
-| Metalworks |
-| Windurst Waters |
-| Windurst Walls |
-| Port Windurst |
-| Windurst Woods |
-| Ru'Lude Gardens |
-| Upper Jeuno |
-| Lower Jeuno |
-| Port Jeuno |
-| Mhaura |
-| Norg |
-| Western Adoulin |
-| Eastern Adoulin |
-| Yahse Hunting Grounds |
-| Ceizak Battlegrounds |
-| Foret de Hennetiel |
-| Yorcia Weald |
-| Morimar Basalt Fields |
-| Marjami Ravine |
-| Kamihr Drifts |
-| Sih Gates |
-| Moh Gates |
-| Cirdas Caverns |
-| Dho Gates |
-| Woh Gates |
-| Outer Ra'Kaznar |
-| Ra'Kaznar Inner Court |
-| Walk of Echoes [P2] |
-| Escha - Zi'Tah |
-| Escha - Ru'Aun |
-| Reisenjima |
-| Reisenjima Henge |
-| Dynamis - San d'Oria [D] |
-| Dynamis - Bastok [D] |
-| Dynamis - Windurst [D] |
-| Dynamis - Jeuno [D] |
-| Walk of Echoes [P1] |
+| Type | Zones |
+| :---: | :--: |
+| Cities | Tavnazian Safehold, Al Zahbi, Aht Urhgan Whitegate, Nashmau, Southern San d'Oria, Northern San d'Oria, Port San d'Oria, Chateau d'Oraguille, Bastok Mines, Bastok Markets, Port Bastok, Metalworks, Windurst Waters, Windurst Walls, Port Windurst, Windurst Woods, Ru'Lude Gardens, Upper Jeuno, Lower Jeuno, Port Jeuno, Mhaura, Norg, Western Adoulin, Eastern Adoulin |
+| Dungeons | Pso'Xja, Nyzul Isle, Lower Delkfutt's Tower, Middle Delkfutt's Tower, Upper Delkfutt's Tower, Walk of Echoes, Walk of Echoes [P2], Walk of Echoes [P1], Reisenjima Henge |
+| Dynamis | Dynamis - Valkurm, Dynamis - Buburimu, Dynamis - Qufim, Dynamis - Tavnazia, Dynamis - Beaucedine, Dynamis - Xarcabard, Dynamis - San d'Oria, Dynamis - Bastok, Dynamis - Windurst, Dynamis - Jeuno, Dynamis - San d'Oria [D], Dynamis - Bastok [D], Dynamis - Windurst [D], Dynamis - Jeuno [D] |
+| Shadowreign | Southern San d'Oria [S], Batallia Downs [S], Bastok Markets [S], Rolanberry Fields [S] |
+| Open World | La Theine Plateau, Valkurm Dunes, Konschtat Highlands, Rolanberry Fields, Tahrongi Canyon, Sauromugue Champaign, Qufim Island, Yahse Hunting Grounds, Ceizak Battlegrounds, Foret de Hennetiel, Yorcia Weald, Morimar Basalt Fields, Marjami Ravine, Kamihr Drifts, Sih Gates, Moh Gates, Cirdas Caverns, Dho Gates, Woh Gates, Outer Ra'Kaznar, Ra'Kaznar Inner Court, Escha - Zi'Tah, Escha - Ru'Aun, Reisenjima |
