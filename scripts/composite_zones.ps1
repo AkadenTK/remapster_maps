@@ -5,10 +5,58 @@ $stopwatch =  [system.diagnostics.stopwatch]::StartNew()
 $jobs = @()
 $completed_jobs = @()
 
+$anchor_params = "x", "y"
+$color_params = "red", "green", "blue", "alpha"
+
 if (Test-Path $out_path) {}
 else
 {
 	$null = New-Item $out_path -ItemType Directory
+}
+
+Function get-value {
+    param($keys, $param, $instance, $metadata)
+
+    ForEach($key in $keys) {
+        $key_param = $key + "_" + $param
+
+        $v = $instance.$key_param ?? $metadata.$key_param
+        if (-not ($null -eq $v)) {
+            return $v
+        }
+    }
+    return $instance.$param ?? $metadata.$param
+}
+
+Function get-table {
+    param($keys, $param, $instance, $metadata, $table_params)
+
+    $v = @{}
+    ForEach($key in $keys) {
+        $key_param = $key + "_" + $param
+        
+        if (-not ($null -eq $instance.$key_param)) {
+            foreach($p in $table_params) {
+                $v.$p = $v.$p ?? $instance.$key_param.$p
+            }
+        }
+        if (-not ($null -eq $metadata.$key_param)) {
+            foreach($p in $table_params) {
+                $v.$p = $v.$p ?? $metadata.$key_param.$p
+            }
+        }
+    }
+    if (-not ($null -eq $instance.$param)) {
+        foreach($p in $table_params) {
+            $v.$p = $v.$p ?? $instance.$param.$p
+        }
+    }
+    if (-not ($null -eq $metadata.$param)) {
+        foreach($p in $table_params) {
+            $v.$p = $v.$p ?? $metadata.$param.$p
+        }
+    }
+    return $v
 }
 
 ForEach($zone_file_name in $zones) {
@@ -38,62 +86,41 @@ ForEach($zone_file_name in $zones) {
           }
 
           If ([System.IO.File]::Exists($marker_file_name)) {
-            $anchor_x = 0
-            $anchor_y = 0
-            if ($marker_metadata.anchor -and $marker_metadata.anchor.x) { $anchor_x = $marker_metadata.anchor.x }
-            if ($marker_metadata.anchor -and $marker_metadata.anchor.y) { $anchor_y = $marker_metadata.anchor.y }
-            if ($marker.anchor -and $marker.anchor.x) { $anchor_x = $marker.anchor.x }
-            if ($marker.anchor -and $marker.anchor.y) { $anchor_y = $marker.anchor.y }
+            $anchor = get-table $composite_key "anchor" $marker $marker_metadata $anchor_params
+            # Write-Output $anchor
 
-            $width = $marker_metadata.width
-            $height = $marker_metadata.height
-            if ($marker.width) { $width = $marker.width }
-            if ($marker.height) { $height = $marker.height }
+            $width = get-value $composite_key "width" $marker $marker_metadata
+            $height = get-value $composite_key "height" $marker $marker_metadata
+
             $width = $width * $rescale_markers
             $height = $height * $rescale_markers
 
             $flipflop = ''
             if ($width -lt 0) {
-              $anchor_x = -1 * $anchor_x
+              $anchor.x = -1 * $anchor.x
               $width = -1 * $width
               $flipflop = $flipflop + " -flop"
             }
             if ($height -lt 0) {
-              $anchor_y = -1 * $anchor_y
+              $anchor.y = -1 * $anchor.y
               $height = -1 * $height
               $flipflop = $flipflop + " -flip"
             }
 
-            $composite_x_attr = 'c'+$final_size+'_x'
-            $composite_y_attr = 'c'+$final_size+'_y'
-            $x = $marker.$composite_x_attr ?? $marker.x
-            $y = $marker.$composite_y_attr ?? $marker.y
+            $x = get-value $composite_key "x" $marker $marker_metadata
+            $y = get-value $composite_key "y" $marker $marker_metadata
 
-            $x = ($x * $rescale_map) - ($anchor_x * ($rescale_markers))
-            $y = ($y * $rescale_map) - ($anchor_y * ($rescale_markers))
+            $x = ($x * $rescale_map) - ($anchor.x * ($rescale_markers))
+            $y = ($y * $rescale_map) - ($anchor.y * ($rescale_markers))
 
             $size = '' + $width + 'x' + $height
             $geometry = ' -geometry ' + $size + '+' + $x + '+' + $y
 
-            $red = 255
-            $green = 255
-            $blue = 255
-            $alpha = 1
-            if($marker.color) {
-              if($marker.color.red) { $red = $marker.color.red }
-              if($marker.color.green) { $green = $marker.color.green }
-              if($marker.color.blue) { $blue = $marker.color.blue }
-              if($marker.color.alpha) { $alpha = $marker.color.alpha / 255 }
-            }
-            elseif($marker_metadata.color) {
-              if($marker_metadata.color.red) { $red = $marker_metadata.color.red }
-              if($marker_metadata.color.green) { $green = $marker_metadata.color.green }
-              if($marker_metadata.color.blue) { $blue = $marker_metadata.color.blue }
-              if($marker_metadata.color.alpha) { $alpha = $marker_metadata.color.alpha / 255 }
-            }
+            $color = get-table $composite_key "color" $marker $marker_metadata $color_params
 
-            $tint = ' -fill "rgb('+$red+','+$green+','+$blue+')" -tint 100'
+            $tint = ' -fill "rgb('+$color.red+','+$color.green+','+$color.blue+')" -tint 100'
             # Write-Output $alpha
+            $alpha = $color.alpha / 255
             $transp = ' -alpha on -channel A -evaluate multiply ' + $alpha + ' +channel'
 
             $markers_cmd = $markers_cmd + "``( '" + $marker_file_name + "'" + $flipflop + $tint + $transp + ' `)' + $geometry + ' -compose over -composite '
