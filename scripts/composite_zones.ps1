@@ -8,6 +8,8 @@ $completed_jobs = @()
 $anchor_params = "x", "y"
 $color_params = "red", "green", "blue", "alpha"
 
+$watermark_loc = [math]::Round($final_size * 0.03125)
+
 if (Test-Path $out_path) {}
 else
 {
@@ -15,9 +17,9 @@ else
 }
 
 Function get-value {
-    param($keys, $param, $instance, $metadata)
+    param($param, $instance, $metadata)
 
-    ForEach($key in $keys) {
+    ForEach($key in $composite_keys) {
         $key_param = $key + "_" + $param
 
         $v = $instance.$key_param ?? $metadata.$key_param
@@ -28,12 +30,12 @@ Function get-value {
     return $instance.$param ?? $metadata.$param
 }
 
-Function get-table {
-    param($keys, $param, $instance, $metadata, $table_params)
+Function get-table() {
+    param($param, $instance, $metadata, [string[]]$table_params)
 
     $v = @{}
-    ForEach($key in $keys) {
-        $key_param = $key + "_" + $param
+    ForEach($x in $composite_keys) {
+        $key_param = $x + "_" + $param
         
         if (-not ($null -eq $instance.$key_param)) {
             foreach($p in $table_params) {
@@ -86,11 +88,11 @@ ForEach($zone_file_name in $zones) {
           }
 
           If ([System.IO.File]::Exists($marker_file_name)) {
-            $anchor = get-table $composite_key "anchor" $marker $marker_metadata $anchor_params
+            $anchor = get-table "anchor" $marker $marker_metadata $anchor_params
             # Write-Output $anchor
 
-            $width = get-value $composite_key "width" $marker $marker_metadata
-            $height = get-value $composite_key "height" $marker $marker_metadata
+            $width = get-value "width" $marker $marker_metadata
+            $height = get-value "height" $marker $marker_metadata
 
             $width = $width * $rescale_markers
             $height = $height * $rescale_markers
@@ -107,8 +109,8 @@ ForEach($zone_file_name in $zones) {
               $flipflop = $flipflop + " -flip"
             }
 
-            $x = get-value $composite_key "x" $marker $marker_metadata
-            $y = get-value $composite_key "y" $marker $marker_metadata
+            $x = get-value "x" $marker $marker_metadata
+            $y = get-value "y" $marker $marker_metadata
 
             $x = ($x * $rescale_map) - ($anchor.x * ($rescale_markers))
             $y = ($y * $rescale_map) - ($anchor.y * ($rescale_markers))
@@ -116,10 +118,10 @@ ForEach($zone_file_name in $zones) {
             $size = '' + $width + 'x' + $height
             $geometry = ' -geometry ' + $size + '+' + $x + '+' + $y
 
-            $color = get-table $composite_key "color" $marker $marker_metadata $color_params
+            $color = get-table "color" $marker $marker_metadata $color_params
 
             $tint = ' -fill "rgb('+$color.red+','+$color.green+','+$color.blue+')" -tint 100'
-            # Write-Output $alpha
+            # Write-Output $color.alpha
             $alpha = $color.alpha / 255
             $transp = ' -alpha on -channel A -evaluate multiply ' + $alpha + ' +channel'
 
@@ -128,6 +130,7 @@ ForEach($zone_file_name in $zones) {
         }
       }
     }
+    $markers_cmd = $markers_cmd + '..\..\remapster\remapster_watermark.png -gravity south -geometry +0+'+$watermark_loc+' -compose over -composite '
     $markers_cmd = $markers_cmd.Trim()
 
     $cmd =  "& magick '" + $bg_file_name + "' -resize " + $final_size + "x" + $final_size + " " + $markers_cmd.Trim() + ' "' + $map_file_name + '"'
