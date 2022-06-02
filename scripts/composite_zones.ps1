@@ -133,7 +133,7 @@ ForEach($zone_file_name in $zones) {
     $markers_cmd = $markers_cmd + '..\..\remapster\remapster_watermark.png -gravity south -geometry +0+'+$watermark_loc+' -compose over -composite '
     $markers_cmd = $markers_cmd.Trim()
 
-    $cmd =  "& magick '" + $bg_file_name + "' -resize " + $final_size + "x" + $final_size + " " + $markers_cmd.Trim() + ' "' + $map_file_name + '"'
+    $cmd =  "& magick '" + $bg_file_name + "' -resize " + $final_size + "x" + $final_size + " " + $markers_cmd.Trim() + ' ' + $composite_options + '"' + $map_file_name + '"'
     
     # Invoke-Expression $cmd
 

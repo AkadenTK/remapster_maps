@@ -7,6 +7,7 @@ $marker_blacklist = 'pop','harvesting','logging','mining','lost_article','chest'
 $final_size = 2048
 $rescale_markers = 1
 $rescale_map = 1
+$composite_options = "-colors 128 "
 $composite_keys = "dat", "w2048", "wiki"
 
 $zone_info = @{}
