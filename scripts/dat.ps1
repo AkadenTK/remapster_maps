@@ -7,19 +7,20 @@ $marker_blacklist = 'pop','harvesting','logging','mining','lost_article','chest'
 $final_size = 2048
 $rescale_markers = 1
 $rescale_map = 1
-$composite_options = "-colors 128 "
+# $composite_options = "-colors 128 "
 $composite_keys = "dat", "w2048", "wiki"
 
 $zone_info = @{}
 (((Get-Content ".\zones.json" | Out-String) -replace '(?m)(?<=^([^"]|"[^"]*")*)//.*' -replace '(?ms)/\*.*?\*/') | ConvertFrom-Json).psobject.properties | ForEach-Object { $zone_info[$_.Name] = $_.Value }
 
 Function get_map_name {
-  param($zone_id, $map_index, $n_maps)
+  param($zone_id, $map_index, $map_id, $n_maps)
   
-  $map_name = $zone_id + "_$map_index.png"
-  if ($n_maps -lt 2) {
-      $map_name = $zone_id + "_0.png"
+  $map_name = $map_id ?? $map_index
+  if ($n_maps -eq 1) {
+    $map_name = 0
   }
+  $map_name = $zone_id + "_$map_name.png"
   return $map_name
 }
 

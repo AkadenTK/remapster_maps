@@ -70,7 +70,7 @@ ForEach($zone_file_name in $zones) {
   ForEach($map in $zone_metadata.maps) {
     $bg_file_name = $source_dir + '\img\maps\' + $map.bg
     $map_index = [array]::indexof($zone_metadata.maps, $map) + 1
-    $map_name = get_map_name $zone_id $map_index $n_maps
+    $map_name = get_map_name $zone_id $map_index $map.id $n_maps
     $map_file_name = $out_path + $map_name
 
     $markers_cmd = ''
