@@ -7,7 +7,6 @@ $marker_blacklist = 'pop','harvesting','logging','mining','lost_article','chest'
 $final_size = 2048
 $rescale_markers = 1
 $rescale_map = 1
-# $composite_options = "-colors 128 "
 $composite_keys = "dat", "w2048", "wiki"
 
 $zone_info = @{}
@@ -16,11 +15,8 @@ $zone_info = @{}
 Function get_map_name {
   param($zone_id, $map_index, $map_id, $n_maps)
   
-  $map_name = $map_id ?? $map_index
-  if ($n_maps -eq 1) {
-    $map_name = 0
-  }
-  $map_name = $zone_id + "_$map_name.png"
+  $map_i = $map_id ?? $map_index
+  $map_name = $zone_id + "_$map_i.png"
   return $map_name
 }
 
