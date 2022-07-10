@@ -18,8 +18,9 @@ Function get_map_name {
   
   $zone_number = [convert]::ToInt32($zone_id, 10)
   $zone_name = "{0:X2}" -f $zone_number
-  $map_number = $map_index - 1
-  $map_name = $zone_name + "_$map_number.png"
+  if ($map_id -gt 0) { $map_id = $map_id - 1 }
+  $map_i = $map_id ?? $map_index
+  $map_name = $zone_name + "_$map_i.png"
   return $map_name
 }
 
