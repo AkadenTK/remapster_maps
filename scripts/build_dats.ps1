@@ -2,7 +2,6 @@ $zone_whitelist = .\zone_whitelist.ps1
 
 $dats_dir = "C:\Program Files (x86)\PlayOnline\SquareEnix\FINAL FANTASY XI\"
 $img_dir = "..\..\remapster\dat_img"
-$out_dats_path = "..\dats"
 
 $source_dir = $args[0]
 $zones_p = $source_dir + '\metadata\zones\'
@@ -12,6 +11,7 @@ $final_size = $args[1]
 $rescale_markers = $args[2]
 $rescale_map = $args[3]
 $composite_keys = "dat", "w$final_size", "wiki"
+$out_dats_path = "..\dats\$final_size"
 
 $zone_info = @{}
 (((Get-Content ".\zones.json" | Out-String) -replace '(?m)(?<=^([^"]|"[^"]*")*)//.*' -replace '(?ms)/\*.*?\*/') | ConvertFrom-Json).psobject.properties | ForEach-Object { $zone_info[$_.Name] = $_.Value }

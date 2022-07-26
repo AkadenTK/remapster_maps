@@ -1,0 +1,5 @@
+.\2048.ps1 $args[0] $args[1]
+.\1024.ps1 $args[0] $args[1]
+.\mappy.ps1  $args[0] $args[1]
+.\build_dats.ps1 $args[0] 2048 1 1 $args[1]
+.\build_dats.ps1 $args[0] 1024 .75 .5 $args[1]
