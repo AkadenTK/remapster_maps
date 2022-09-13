@@ -7,19 +7,27 @@ $marker_blacklist = 'pop','harvesting','logging','mining','lost_article','chest'
 $final_size = 2048
 $rescale_markers = 1
 $rescale_map = 1
-$composite_key = "ffxidb", "w2048", "wiki"
+
+$composite_keys = "ffxidb", "w2048", "wiki"
 
 $zone_info = @{}
 (((Get-Content ".\zones.json" | Out-String) -replace '(?m)(?<=^([^"]|"[^"]*")*)//.*' -replace '(?ms)/\*.*?\*/') | ConvertFrom-Json).psobject.properties | ForEach-Object { $zone_info[$_.Name] = $_.Value }
 
 Function get_map_name {
-  param($zone_id, $map_index, $map_id, $n_maps)
+  param($zone_id, $map_index, $map_id, $n_maps, $zone, $map)
   
-  $map_name = $zone_id + "_$map_index.png"
-  if ($n_maps -lt 2) {
-      $map_name = $zone_id + "_0.png"
+  if ($null -eq $zone_id) {
+    return $null
   }
-  return $map_name
+  $zone_number = [convert]::ToInt32($zone_id, 10)
+  $zone_name = "{0}" -f $zone_number
+  if ($n_maps -eq 1) {
+    return $zone_name + "_0.png"
+  } elseif (-not($null -eq $map_id)) {
+    return $zone_name + "_$map_id.png"
+  } else {
+    return $null
+  }
 }
 
 $zones_p = $source_dir + '\metadata\zones\'

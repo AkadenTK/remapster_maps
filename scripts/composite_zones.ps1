@@ -70,7 +70,7 @@ try {
       $bg_file_name = $source_dir + '\img\maps\' + $map.bg
       $map_index = [array]::indexof($zone_metadata.maps, $map) + 1
       
-      if ($null -eq $map.id) { $map_ids = @(0) }
+      if ($null -eq $map.id) { $map_ids = @($null) }
       elseif ($map.id -is [array]) { $map_ids = $map.id }
       elseif ($n_maps -eq 1) { $map_ids = @(0) }
       else { $map_ids = $($map.id) }
