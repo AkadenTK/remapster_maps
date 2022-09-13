@@ -18,10 +18,13 @@ Function get_map_name {
   
   $zone_number = [convert]::ToInt32($zone_id, 10)
   $zone_name = "{0:X2}" -f $zone_number
-  if ($map_id -gt 0) { $map_id = $map_id - 1 }
-  $map_i = $map_id ?? $map_index
-  $map_name = $zone_name + "_$map_i.png"
-  return $map_name
+  if ($n_maps == 1) {
+    return $zone_name + "_0.png"
+  } elseif (-not($null -eq $map_id)) {
+    return $zone_name + "_$map_id.png"
+  } else {
+    return $null
+  }
 }
 
 $zones_p = $source_dir + '\metadata\zones\'
